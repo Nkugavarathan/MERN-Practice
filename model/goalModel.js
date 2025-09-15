@@ -1,5 +1,6 @@
 // ✅ Import required Mongoose functions
 import { model, Schema } from "mongoose"
+import mongoose from "mongoose"
 
 // ✅ Define the schema (blueprint) for Goal documents
 const schema = new Schema(
