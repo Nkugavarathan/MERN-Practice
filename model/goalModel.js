@@ -5,9 +5,9 @@ import { model, Schema } from "mongoose"
 const schema = new Schema(
   {
     user: {
-      type: mongoose.SchemaType.SchemaType.ObjectId,
-      require: true,
-      ref: user,
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
     },
     text: {
       type: String,
