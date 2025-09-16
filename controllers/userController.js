@@ -31,7 +31,6 @@ export const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password: hashPassword,
-    token: generateToken(user._id),
   })
 
   // Send back user info if successful
@@ -40,6 +39,7 @@ export const registerUser = asyncHandler(async (req, res) => {
       _id: user.id,
       name: user.name,
       email: user.email,
+      token: generateToken(user._id),
     })
   } else {
     res.status(400)
@@ -62,12 +62,17 @@ export const loginUser = asyncHandler(async (req, res) => {
     res.status(400)
     throw new Error("invalid")
   }
-
-  res.json({ message: "Login user" })
 })
 
 export const getMe = asyncHandler(async (req, res) => {
-  res.json({ message: "user data display" })
+  const { _id, name, email } = await User.findById(req.user.id)
+  res.status(200).json({
+    id: _id,
+    name,
+    email,
+  })
+
+  res.status(200).json(req.user)
 })
 
 // Generate JWT

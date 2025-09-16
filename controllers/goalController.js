@@ -1,10 +1,10 @@
 import Goal from "../model/goalModel.js"
-
+import User from "../model/userModel.js"
 // 📚 Let's look at all the goals we have
 export const getGoals = async (req, res) => {
   try {
-    const goals = await Goal.find() // 🕵️‍♂️ Find all the goals
-    res.status(200).json(goals)     // ✅ Send them back to the person who asked
+    const goals = await Goal.find({ user: req.user.id }) // 🕵️‍♂️ Find all the goals
+    res.status(200).json(goals) // ✅ Send them back to the person who asked
   } catch (error) {
     res.status(500).json({ message: "Oops! Something went wrong." }) // 😢 If there's a problem, tell them
   }
@@ -13,8 +13,10 @@ export const getGoals = async (req, res) => {
 // ✍️ Let's make a new goal
 export const setGoal = async (req, res) => {
   try {
-    const goal = await Goal.create({ text: req.body.text }) // 🧱 Build a new goal with the words they gave
-    res.status(201).json(goal) // 🎉 Send back the new goal
+    const goal = await Goal.create({ text: req.body.text, user: req.user.id }) // 🧱 Build a new goal with the words they gave
+
+    res.status(201).json(goal)
+    // 🎉 Send back the new goal
   } catch (error) {
     res.status(400).json({ message: "Hmm... couldn't make the goal." }) // 😕 If it didn't work, say so
   }
